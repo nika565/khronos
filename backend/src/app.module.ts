@@ -8,6 +8,10 @@ import { UsersModule } from './users/users.module';
 import { ProjectsModule } from './projects/projects.module';
 import { TasksModule } from './tasks/tasks.module';
 import { SquadsModule } from './squads/squads.module';
+import { Users } from './users/users.model';
+import { Projects } from './projects/projects.model';
+import { Tasks } from './tasks/tasks.model';
+import { Squads } from './squads/squads.model';
 
 @Module({
   imports: [
@@ -21,7 +25,7 @@ import { SquadsModule } from './squads/squads.module';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE,
-      models: [],
+      models: [Users, Projects, Tasks, Squads],
       define: {
         underscored: true,
       },
