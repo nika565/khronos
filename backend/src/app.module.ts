@@ -22,6 +22,9 @@ import { SquadsModule } from './squads/squads.module';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE,
       models: [],
+      define: {
+        underscored: true,
+      },
     }),
     UsersModule,
     ProjectsModule,
