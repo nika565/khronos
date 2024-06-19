@@ -2,6 +2,7 @@
 import { Controller, Get, Post, Put, Delete, Res, Body, Param, Query, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 import { UsersService } from './users.service';
+import * as bcrypt from 'bcrypt';
 
 @Controller('users')
 export class UsersController {
@@ -54,7 +55,10 @@ export class UsersController {
             })
         }
 
-        const register = await this.usersService.create(userName, userEmail, userPassword, userRole);
+        // Adicionando criptografia de senha
+        const hash = await bcrypt.hash(userPassword, 12);
+
+        const register = await this.usersService.create(userName, userEmail, hash, userRole);
 
         if(!register) return res.status(HttpStatus.BAD_REQUEST).json({
             status: `error`,

@@ -12,6 +12,7 @@ import { Users } from './users/users.model';
 import { Projects } from './projects/projects.model';
 import { Tasks } from './tasks/tasks.model';
 import { Squads } from './squads/squads.model';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { Squads } from './squads/squads.model';
     ProjectsModule,
     TasksModule,
     SquadsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

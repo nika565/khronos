@@ -58,6 +58,7 @@ CREATE TABLE squads (
 
 -- inserts
 INSERT INTO users (user_name, user_email, user_password, created_at, updated_at, active, user_role) 
-VALUES ('Nathan Barros', 'nathan@email.com', 'nathan123', NOW(), NOW(), 'true', 'admin'),
+VALUES ('Nathan Barros', 'nathan@email.com', '$2a$12$xPJk6pu8smi60cfU5ts.I.RF0ODi2OSYLmbL.TujA0mIYReEGjcK6
+', NOW(), NOW(), 'true', 'admin'),
 ('Monkey D. Luffy', 'monkey@email.com', 'nika123', NOW(), NOW(), 'true', 'admin');
  

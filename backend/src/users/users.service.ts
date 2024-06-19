@@ -21,11 +21,19 @@ export class UsersService {
         }
     }
 
-    async find(id: number, active: string = 'true'): Promise<Users | boolean> {
+    async find(id: number, active: string = 'true', email?: string): Promise<Users | boolean> {
         try {
+
+            // Usando e-mail para login
+            if(email) return await this.usersModel.findOne({
+                where: { userEmail: email }
+            });
+
+            // Busca comum por id e filtro de ativos e inativos
             return await this.usersModel.findOne({
                 where: { userId: id, active: active }
-            })
+            });
+
         } catch (error) {
             console.log(error);
             return false;
