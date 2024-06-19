@@ -3,6 +3,7 @@ import { Controller, Get, Post, Put, Delete, Res, Body, Param, Query, HttpStatus
 import { Response } from 'express';
 import { UsersService } from './users.service';
 import * as bcrypt from 'bcrypt';
+import { Public } from '../decorators/PublicRoute';
 
 @Controller('users')
 export class UsersController {
@@ -11,6 +12,7 @@ export class UsersController {
         private readonly usersService: UsersService
     ){}
 
+    
     @Get()
     async findAll(@Res() res: Response): Promise<Response<any, Record<string, any>>> {
         const data = await this.usersService.findAll();
@@ -44,6 +46,7 @@ export class UsersController {
         })
     }
 
+    @Public()
     @Post()
     async create(@Body() body: any, @Res() res: Response) {
         const { userName, userEmail, userPassword, userRole } = body;

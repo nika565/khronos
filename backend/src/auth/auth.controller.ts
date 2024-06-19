@@ -1,6 +1,7 @@
 import { Controller, Body, Post, HttpStatus, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
+import { Public } from '../decorators/PublicRoute';
 
 @Controller('auth')
 export class AuthController {
@@ -8,6 +9,7 @@ export class AuthController {
         private authService: AuthService,
     ){}
 
+    @Public()
     @Post('login')
     async signIn(@Body() body: Record<string, any>, @Res() res: Response): Promise<Record<string, any>> {
         try {
