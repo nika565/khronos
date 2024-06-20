@@ -5,13 +5,11 @@ import { UsersService } from './users.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { APP_GUARD } from '@nestjs/core';
 import { Users } from './users.model';
-import { AuthModule } from 'src/auth/auth.module';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../../guards/auth.guard';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([Users]),
-    // AuthModule,
   ],
   controllers: [UsersController],
   providers: [

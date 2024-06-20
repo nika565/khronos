@@ -1,9 +1,12 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Put, Delete, Res, Body, Param, Query, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Res, Body, Param, Query, HttpStatus, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { UsersService } from './users.service';
 import * as bcrypt from 'bcrypt';
-import { Public } from '../decorators/PublicRoute';
+import { Public } from '../../decorators/PublicRoute';
+import { RolesGuard } from 'src/guards/roles.guard';
+import { Roles } from 'src/decorators/roles.decorator';
+import { Role } from 'src/enums/role.enum';
 
 @Controller('users')
 export class UsersController {
@@ -12,7 +15,8 @@ export class UsersController {
         private readonly usersService: UsersService
     ){}
 
-    
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Get()
     async findAll(@Res() res: Response): Promise<Response<any, Record<string, any>>> {
         const data = await this.usersService.findAll();

@@ -4,14 +4,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { UsersModule } from './users/users.module';
-import { ProjectsModule } from './projects/projects.module';
-import { TasksModule } from './tasks/tasks.module';
-import { SquadsModule } from './squads/squads.module';
-import { Users } from './users/users.model';
-import { Projects } from './projects/projects.model';
-import { Tasks } from './tasks/tasks.model';
-import { Squads } from './squads/squads.model';
+import { UsersModule } from './modules/users/users.module';
+import { ProjectsModule } from './modules/projects/projects.module';
+import { TasksModule } from './modules/tasks/tasks.module';
+import { SquadsModule } from './modules/squads/squads.module';
+import { Users } from './modules/users/users.model';
+import { Projects } from './modules/projects/projects.model';
+import { Tasks } from './modules/tasks/tasks.model';
+import { Squads } from './modules/squads/squads.model';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
