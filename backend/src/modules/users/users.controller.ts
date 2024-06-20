@@ -35,6 +35,8 @@ export class UsersController {
         })
     }
 
+    @Roles(Role.Admin, Role.Common)
+    @UseGuards(RolesGuard)
     @Get(':id')
     async find(@Param() param: any, @Query() query: any, @Res() res: Response): Promise<Response<any, Record<string, any>>> {
         const data = await this.usersService.find(Number(param.id), query.active);
@@ -78,6 +80,8 @@ export class UsersController {
         })
     }
 
+    @Roles(Role.Admin, Role.Common)
+    @UseGuards(RolesGuard)
     @Put(':id')
     async update(@Param() param: any, @Body() body: any, @Res() res: Response) {
         const edit = await this.usersService.update(parseInt(param.id), body);
@@ -93,6 +97,8 @@ export class UsersController {
         })
     }
 
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Delete(':id')
     async inactivate(@Param() param: any, @Res() res: Response) {
         const inactive = await this.usersService.inactivate(parseInt(param.id));

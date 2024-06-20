@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -13,6 +13,11 @@ import { Projects } from './modules/projects/projects.model';
 import { Tasks } from './modules/tasks/tasks.model';
 import { Squads } from './modules/squads/squads.model';
 import { AuthModule } from './auth/auth.module';
+import { AuthRoleMiddleware } from './middleware/authRole.middleware';
+import { UsersController } from './modules/users/users.controller';
+import { ProjectsController } from './modules/projects/projects.controller';
+import { TasksController } from './modules/tasks/tasks.controller';
+import { SquadsController } from './modules/squads/squads.controller';
 
 @Module({
   imports: [
@@ -38,6 +43,20 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService
+  ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+    .apply(AuthRoleMiddleware)
+    .forRoutes(
+      UsersController, 
+      ProjectsController, 
+      TasksController, 
+      SquadsController
+    )
+  }
+}
