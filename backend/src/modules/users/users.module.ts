@@ -4,7 +4,7 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { APP_GUARD } from '@nestjs/core';
-import { Users } from './users.model';
+import { Users } from '../../models/users.model';
 import { AuthGuard } from '../../guards/auth.guard';
 
 @Module({

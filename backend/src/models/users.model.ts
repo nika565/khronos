@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
-import { Tasks } from '../tasks/tasks.model';
-import { Squads } from '../squads/squads.model';
+import { Tasks } from './tasks.model';
+import { Squads } from './squads.model';
 
 @Table({
     tableName: 'users',

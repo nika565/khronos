@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Users } from './users.model';
+import { Users } from '../../models/users.model';
 
 @Injectable()
 export class UsersService {

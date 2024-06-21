@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { ProjectsController } from './projects.controller';
 import { ProjectsService } from './projects.service';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Projects } from './projects.model';
+import { Projects } from '../../models/projects.model';
 
 @Module({
   imports: [SequelizeModule.forFeature([Projects])],

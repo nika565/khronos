@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Table, Model, Column, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
-import { Users } from  '../users/users.model';
-import { Projects } from '../projects/projects.model';
+import { Users } from  './users.model';
+import { Projects } from './projects.model';
 
 @Table({
     tableName: 'squads',
