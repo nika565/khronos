@@ -1,4 +1,89 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Post, Put, Query, Param, Body, Res, HttpStatus } from '@nestjs/common';
+import { Response } from 'express';
+import { TasksService } from './tasks.service';
 
 @Controller('tasks')
-export class TasksController {}
+export class TasksController {
+    constructor(
+        private readonly tasksService: TasksService,
+    ){}
+
+    @Get()
+    async findAllTasksByUser(@Query() query: any, @Res() res: Response): Promise<Record<string, any>> {
+
+        // Verificando se as variáveis de parâmetro existem
+        const { idUser, idProject } = query;
+        let tasks: any;
+
+        if(idUser) {
+            tasks = await this.tasksService.findAllTasksUser(parseInt(idUser));
+        }
+        
+        if(idProject) {
+            tasks = await this.tasksService.findAllTasksProject(idProject);
+        }
+
+        if(!tasks) return res
+        .status(HttpStatus.NOT_FOUND)
+        .json({
+            status: `error`,
+            msg: `Nenhuma tarefa foi encontrada.`,
+        });
+
+        return res.status(HttpStatus.OK).json({
+            status: `success`,
+            data: tasks,
+        });
+    }
+
+    @Get(':idTask')
+    async findOneTask(@Param() param: any, @Res() res: Response) {
+
+        const id = parseInt(param.idTask);
+
+        const getTask = await this.tasksService.findOneTask(id);
+
+        if(!getTask) return res.status(HttpStatus.NOT_FOUND).json({
+            status: `error`,
+            msg: `Nenhuma tarefa encontrada.`
+        });
+
+        return res.status(HttpStatus.OK).json({
+            status: `success`,
+            data: getTask,
+        });
+    }
+
+    @Post()
+    async createANewTask(@Body() body: any, @Res() res: Response) {
+        const newTask = await this.tasksService.createTask(body);
+
+        if(!newTask) return res.status(HttpStatus.BAD_REQUEST).json({
+            status: `error`,
+            msg: `Algo deu errado ao tentar criar nova tarefa`,
+        });
+
+        return res.status(HttpStatus.CREATED).json({
+            status: `success`,
+            msg: `Tarefa criada com sucesso!`,
+            data: newTask,
+        });
+    }
+
+    @Put(':idTask')
+    async updateTask(@Param() param: any, @Body() body: any, @Res() res: Response) {
+        const id = parseInt(param.idTask);
+        const taskUpdated = await this.tasksService.update(body, id);
+
+        if(!taskUpdated) return res.status(HttpStatus.BAD_REQUEST).json({
+            status: `error`,
+            msg: `Não foi possível modificar tarefa`,
+        });
+
+        return res.status(HttpStatus.OK).json({
+            status: `success`,
+            msg: `Tarefa modificada com sucesso!`,
+        });
+    }
+
+}

@@ -46,9 +46,16 @@ export class TasksService {
 
     async findOneTask(idTask: number): Promise<boolean | Tasks> {
         try {
-            return await this.tasksModel.findOne({
-                where: { idTask: idTask }
-            });
+            return await this.tasksModel.findByPk(idTask);
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
+    async createTask(task: Tasks): Promise<boolean | Tasks> {
+        try {
+            return await this.tasksModel.create(task);
         } catch (error) {
             console.log(error);
             return false;

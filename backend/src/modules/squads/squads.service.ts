@@ -28,9 +28,16 @@ export class SquadsService {
 
     async find(id: number): Promise<Squads | boolean> {
         try {
-            return await this.squadsModel.findOne({
-                where: { idSquad: id }
-            });
+            return await this.squadsModel.findByPk(id);
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
+    async createSquad(squad: Squads): Promise<boolean | Squads> {
+        try {
+            return await this.squadsModel.create(squad);
         } catch (error) {
             console.log(error);
             return false;

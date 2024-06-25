@@ -9,7 +9,16 @@ export class ProjectsService {
         @InjectModel(Projects) private readonly projectsModel: typeof Projects
     ){}
 
-    async findAll(squadId: number): Promise< boolean | Projects[]> {
+    async findAll(): Promise<boolean | Projects[]> {
+        try {
+            return await this.projectsModel.findAll();
+        } catch (error) {
+            console.log(error);
+            return false
+        }
+    }
+
+    async findAllSquadProject(squadId: number): Promise< boolean | Projects[]> {
         try {
             return this.projectsModel.findAll({
                include: [{
@@ -28,9 +37,16 @@ export class ProjectsService {
 
     async find(id: number): Promise<Projects | boolean> {
         try {
-            return this.projectsModel.findOne({
-                where: { idProject: id }
-            });
+            return this.projectsModel.findByPk(id);
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
+    async createProject(project: Projects): Promise<boolean | Projects> {
+        try {
+            return await this.projectsModel.create(project);
         } catch (error) {
             console.log(error);
             return false;
