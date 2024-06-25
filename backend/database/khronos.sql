@@ -44,20 +44,14 @@ CREATE TABLE tasks (
   FOREIGN KEY (fk_id_projects) REFERENCES projects (id_project)
 );
 
--- Tabela de squads
-CREATE TABLE squads (
-  id_squad INT PRIMARY KEY AUTO_INCREMENT,
-  name_squad VARCHAR(255) NOT NULL,
-  fk_id_projects INT NOT NULL,
-  fk_id_users INT NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (fk_id_projects) REFERENCES projects (id_project),
-  FOREIGN KEY (fk_id_users) REFERENCES users (id_user)
-);
-
 -- inserts
-INSERT INTO users (user_name, user_email, user_password, created_at, updated_at, active, user_role) 
-VALUES ('Nathan Barros', 'nathan@email.com', '$2a$12$jcucoAjzIj9MUuc/9biFluZnTTalzVcEBUqZfrcvTDvu9w0ZRXSXG', NOW(), NOW(), 'true', 'admin'),
+INSERT INTO users (user_name, user_email, user_password, created_at, updated_at, active, user_role) VALUES 
+('Nathan Barros', 'nathan@email.com', '$2a$12$jcucoAjzIj9MUuc/9biFluZnTTalzVcEBUqZfrcvTDvu9w0ZRXSXG', NOW(), NOW(), 'true', 'admin'),
 ('Monkey D. Luffy', 'monkey@email.com', '$2a$12$jcucoAjzIj9MUuc/9biFluZnTTalzVcEBUqZfrcvTDvu9w0ZRXSXG', NOW(), NOW(), 'true', 'admin');
- 
+
+INSERT INTO projects (name_project, date_start, date_finish) VALUES
+('Projeto 01', '2024-07-01', '2024-08-25', ),
+('Projeto 02', '2024-07-01', '2024-07-30', ),
+('Projeto 03', '2024-09-01', '2024-09-30', ),
+('Projeto 04', '2024-10-05', '2024-11-25', ),
+('Projeto 05', '2025-01-30', '2024-03-30', );

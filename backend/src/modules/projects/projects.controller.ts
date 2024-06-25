@@ -27,26 +27,6 @@ export class ProjectsController {
         });
     }
 
-    @Get('/squads/:squadId')
-    async findAllProjectsBySquad(@Param() param: any, @Res() res: Response): Promise<Record<string, any>> {
-        const id = parseInt(param.squadId);
-        const projects = await this.projectsService.findAllSquadProject(id);
-
-        if(!projects) return res
-        .status(HttpStatus.NOT_FOUND)
-        .json({
-            status: `error`,
-            msg: `Nenhum registro encontrado.`
-        });
-
-        return res
-        .status(HttpStatus.OK)
-        .json({
-            status: `success`,
-            data: projects
-        });
-    }
-
     @Get(':id')
     async findProjectById(@Param() param: any, @Res() res: Response) {
         const id = parseInt(param.id);

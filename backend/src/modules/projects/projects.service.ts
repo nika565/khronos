@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Projects } from 'src/models/projects.model';
-import { Squads } from 'src/models/squads.model';
 
 @Injectable()
 export class ProjectsService {
@@ -15,23 +14,6 @@ export class ProjectsService {
         } catch (error) {
             console.log(error);
             return false
-        }
-    }
-
-    async findAllSquadProject(squadId: number): Promise< boolean | Projects[]> {
-        try {
-            return this.projectsModel.findAll({
-               include: [{
-                model: Squads,
-                required: true,
-                where: {
-                    idSquad: squadId
-                }
-               }]
-            });
-        } catch (error) {
-            console.log(error);
-            return false;
         }
     }
 
