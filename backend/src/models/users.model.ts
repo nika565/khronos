@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
 import { Tasks } from './tasks.model';
-import { Squads } from './squads.model';
 
 @Table({
     tableName: 'users',
@@ -61,8 +60,5 @@ export class Users extends Model<Users> {
     */
     @HasMany(() => Tasks)
     tasks: Tasks[]
-
-    @HasMany(() => Squads)
-    squads: Squads[]
 
 }
