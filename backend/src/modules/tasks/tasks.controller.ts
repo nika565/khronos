@@ -23,7 +23,7 @@ export class TasksController {
             tasks = await this.tasksService.findAllTasksProject(idProject);
         }
 
-        if(!tasks) return res
+        if(!tasks || tasks.length === 0) return res
         .status(HttpStatus.NOT_FOUND)
         .json({
             status: `error`,

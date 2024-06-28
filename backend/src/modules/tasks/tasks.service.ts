@@ -12,14 +12,10 @@ export class TasksService {
 
     async findAllTasksUser(idUser: number): Promise<boolean | Tasks[]> {
         try {
-            return await this.tasksModel.findAll({
-                include: [{
-                    model: Users,
-                    required: true,
-                    where: {
-                        fkIdUsers: idUser
-                    }
-                }]
+            return await this.tasksModel.findAll({ 
+                where: {
+                    fkIdUsers: idUser
+                } 
             });
         } catch (error) {
             console.log(error);
@@ -29,14 +25,10 @@ export class TasksService {
 
     async findAllTasksProject(idProject: number): Promise<boolean | Tasks[]> {
         try {
-            return await this.tasksModel.findAll({
-                include: [{
-                    model: Projects,
-                    required: true,
-                    where: {
-                        fkIdProjects: idProject
-                    }
-                }]
+            return await this.tasksModel.findAll({  
+                where: {
+                    fkIdProjects: idProject
+                }  
             });
         } catch (error) {
             console.log(error);

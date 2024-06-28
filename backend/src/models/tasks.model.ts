@@ -75,6 +75,7 @@ export class Tasks extends Model<Tasks> {
     @Column({
         allowNull: false,
         type: DataType.ENUM('In Progress', 'Delayed', 'Finished', 'Cancelled'),
+        defaultValue: 'In Progress',
         field: 'task_status'
     })
     taskStatus: string

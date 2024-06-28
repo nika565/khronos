@@ -26,6 +26,13 @@ export class Projects extends Model<Projects> {
     nameProject: string
 
     @Column({
+        allowNull: false,
+        field: 'project_description',
+        type: DataType.TEXT
+    })
+    projectDescription: string
+
+    @Column({
         type: DataType.DATEONLY,
         field: 'date_start',
         allowNull: false

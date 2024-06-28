@@ -21,6 +21,7 @@ CREATE TABLE users (
 CREATE TABLE projects (
   id_project INT PRIMARY KEY AUTO_INCREMENT,
   name_project VARCHAR(50) NOT NULL,
+  project_description TEXT NOT NULL,
   date_start DATE NOT NULL,
   date_finish DATE NOT NULL,
   project_status ENUM('Created', 'In Progress', 'Finished', 'Cancelled') DEFAULT 'Created',
@@ -37,7 +38,7 @@ CREATE TABLE tasks (
   date_finish DATE NOT NULL,
   fk_id_users INT NOT NULL,
   fk_id_projects INT NOT NULL,
-  task_status ENUM('In Progress', 'Delayed', 'Finished', 'Cancelled'),
+  task_status ENUM('In Progress', 'Delayed', 'Finished', 'Cancelled') DEFAULT 'In Progress',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (fk_id_users) REFERENCES users (id_user),
@@ -49,9 +50,16 @@ INSERT INTO users (user_name, user_email, user_password, created_at, updated_at,
 ('Nathan Barros', 'nathan@email.com', '$2a$12$jcucoAjzIj9MUuc/9biFluZnTTalzVcEBUqZfrcvTDvu9w0ZRXSXG', NOW(), NOW(), 'true', 'admin'),
 ('Monkey D. Luffy', 'monkey@email.com', '$2a$12$jcucoAjzIj9MUuc/9biFluZnTTalzVcEBUqZfrcvTDvu9w0ZRXSXG', NOW(), NOW(), 'true', 'admin');
 
-INSERT INTO projects (name_project, date_start, date_finish) VALUES
-('Projeto 01', '2024-07-01', '2024-08-25', ),
-('Projeto 02', '2024-07-01', '2024-07-30', ),
-('Projeto 03', '2024-09-01', '2024-09-30', ),
-('Projeto 04', '2024-10-05', '2024-11-25', ),
-('Projeto 05', '2025-01-30', '2024-03-30', );
+INSERT INTO projects (name_project, project_description, date_start, date_finish) VALUES
+('Projeto 01', 'Uma descrição genérica aqui', '2024-07-01', '2024-08-25' ),
+('Projeto 02', 'Uma descrição genérica aqui', '2024-07-01', '2024-07-30'),
+('Projeto 03', 'Uma descrição genérica aqui', '2024-09-01', '2024-09-30'),
+('Projeto 04', 'Uma descrição genérica aqui', '2024-10-05', '2024-11-25'),
+('Projeto 05', 'Uma descrição genérica aqui', '2025-01-30', '2024-03-30');
+
+INSERT INTO tasks (name_task, task_description, date_start, date_finish, fk_id_users, fk_id_projects) VALUES
+("Tarefa do Projeto 01", "Descrição genérica 01", "2024-07-02", "2024-07-15", "1", "1"),
+("Tarefa do Projeto 02", "Descrição genérica 02", "2024-07-01", "2024-07-07", "1", "2"),
+("Tarefa do Projeto 03", "Descrição genérica 03", "2024-09-01", "2024-09-15", "1", "3"),
+("Tarefa do Projeto 04", "Descrição genérica 04", "2024-10-05", "2024-07-25", "2", "4"),
+("Tarefa do Projeto 05", "Descrição genérica 05", "2025-01-30", "2024-02-15", "2", "5");
