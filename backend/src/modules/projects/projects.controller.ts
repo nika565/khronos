@@ -1,11 +1,13 @@
 import { Controller, Get, Post, Put, Param, Body, Res, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 import { ProjectsService } from './projects.service';
+import { Validation } from 'src/Validation/validation.service';
 
 @Controller('projects')
 export class ProjectsController {
     constructor(
         private readonly projectsService: ProjectsService,
+        private readonly validation: Validation,
     ){}
 
     @Get()
@@ -45,6 +47,25 @@ export class ProjectsController {
 
     @Post()
     async createNewProject(@Body() body: any, @Res() res: Response): Promise<Record<string, any>> {
+
+        // Validação de campos vazios
+        if(this.validation.dataEmptyValidate(Object.values(body))){
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                status: `error`,
+                msg: `Preencha todos os dados`,
+            });
+        }
+
+        // Validação de data
+        const { dateStart, dateFinish } = body;
+
+        if(this.validation.timeValidate(dateStart, dateFinish) === false){
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                status: `error`,
+                msg: `A data foi inserida de forma incorreta, verifique e tente novamente`,
+            });
+        }
+
         const newProject = await this.projectsService.createProject(body);
 
         if(!newProject) return res
@@ -63,6 +84,17 @@ export class ProjectsController {
 
     @Put(':id')
     async updateProject(@Param() param: any, @Body() body: any, @Res() res: Response): Promise<Record<string, any>> {
+        
+        // Validação de data
+        const { dateStart, dateFinish } = body;
+
+        if(this.validation.timeValidate(dateStart, dateFinish) === false){
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                status: `error`,
+                msg: `A data foi inserida de forma incorreta, verifique e tente novamente`,
+            });
+        }
+        
         const id = parseInt(param.id);
         const updatedProject = await this.projectsService.update(id, body);
 

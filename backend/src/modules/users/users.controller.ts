@@ -7,12 +7,14 @@ import { Public } from '../../decorators/PublicRoute';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/role.enum';
+import { Validation } from 'src/Validation/validation.service';
 
 @Controller('users')
 export class UsersController {
 
     constructor(
-        private readonly usersService: UsersService
+        private readonly usersService: UsersService,
+        private readonly validation: Validation,
     ){}
 
     @Roles(Role.Admin)
@@ -57,11 +59,28 @@ export class UsersController {
     async create(@Body() body: any, @Res() res: Response) {
         const { userName, userEmail, userPassword, userRole } = body;
 
-        if(!userName || !userEmail || !userPassword || !userRole) {
+        // Validação de campos vazios
+        if(this.validation.dataEmptyValidate(Object.values(body)) === false) {
             return res.status(HttpStatus.BAD_REQUEST).json({
                 status: `error`,
-                msg: `Você deve preencher todos os campos solicitados`,
-            })
+                msg: `Os dados não foram preenchidos corretamente.`
+            });
+        }
+
+        // Validação de E-mail
+        if(this.validation.emailValidate(body.UserEmail) === false) {
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                status: `error`,
+                msg: `O e-mail foi digitado incorretamente`,
+            });
+        }
+
+        // Validação de senha
+        if(this.validation.passwordValidate(body.userPassword) === false) {
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                status: `error`,
+                msg: `A senha foi digitada incorretamente`,
+            });
         }
 
         // Adicionando criptografia de senha
@@ -84,6 +103,22 @@ export class UsersController {
     @UseGuards(RolesGuard)
     @Put(':id')
     async update(@Param() param: any, @Body() body: any, @Res() res: Response) {
+
+        if(body.userEmail) return res.status(HttpStatus.BAD_REQUEST).json({
+            status: `error`,
+            msg: `Não é possível alterar o e-mail.`
+        });
+
+        if(body.userPassword) {
+            // Validação de senha
+            if(this.validation.passwordValidate(body.userPassword) === false) {
+                return res.status(HttpStatus.BAD_REQUEST).json({
+                    status: `error`,
+                    msg: `A senha foi digitada incorretamente`,
+                });
+            }
+        }
+
         const edit = await this.usersService.update(parseInt(param.id), body);
 
         if(!edit) return res.status(HttpStatus.BAD_REQUEST).json({

@@ -6,6 +6,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { APP_GUARD } from '@nestjs/core';
 import { Users } from '../../models/users.model';
 import { AuthGuard } from '../../guards/auth.guard';
+import { Validation } from 'src/Validation/validation.service';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AuthGuard } from '../../guards/auth.guard';
   controllers: [UsersController],
   providers: [
     UsersService,
+    Validation,
     {
       provide: APP_GUARD, 
       useClass: AuthGuard

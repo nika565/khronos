@@ -1,11 +1,13 @@
 import { Controller, Get, Post, Put, Query, Param, Body, Res, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 import { TasksService } from './tasks.service';
+import { Validation } from 'src/Validation/validation.service';
 
 @Controller('tasks')
 export class TasksController {
     constructor(
         private readonly tasksService: TasksService,
+        private readonly validation: Validation,
     ){}
 
     @Get()
@@ -56,6 +58,25 @@ export class TasksController {
 
     @Post()
     async createANewTask(@Body() body: any, @Res() res: Response) {
+
+        // Validação de campos vazios
+        if(this.validation.dataEmptyValidate(Object.values(body))){
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                status: `error`,
+                msg: `Preencha todos os dados`,
+            });
+        }
+
+        // Validação de data
+        const { dateStart, dateFinish } = body;
+
+        if(this.validation.timeValidate(dateStart, dateFinish) === false){
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                status: `error`,
+                msg: `A data foi inserida de forma incorreta, verifique e tente novamente`,
+            });
+        }
+
         const newTask = await this.tasksService.createTask(body);
 
         if(!newTask) return res.status(HttpStatus.BAD_REQUEST).json({
@@ -72,6 +93,17 @@ export class TasksController {
 
     @Put(':idTask')
     async updateTask(@Param() param: any, @Body() body: any, @Res() res: Response) {
+
+        // Validação de data
+        const { dateStart, dateFinish } = body;
+
+        if(this.validation.timeValidate(dateStart, dateFinish) === false){
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                status: `error`,
+                msg: `A data foi inserida de forma incorreta, verifique e tente novamente`,
+            });
+        }
+
         const id = parseInt(param.idTask);
         const taskUpdated = await this.tasksService.update(body, id);
 
